@@ -207,9 +207,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Add the proper apex filetypes
 vim.filetype.add {
   extension = {
-    cls = 'apexcode',
-    trigger = 'apexcode',
-    apex = 'apexcode',
+    cls = 'apex',
+    trigger = 'apex',
+    apex = 'apex',
   },
 }
 
@@ -239,7 +239,10 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
+  'tpope/vim-vinegar',
+  'tpope/vim-fugitive',
+  'tpope/vim-commentary',
+  'jbenge1/salesforce.nvim',
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -439,8 +442,11 @@ require('lazy').setup({
         }
       end, { desc = '[S]earch [/] in Open Files' })
       vim.keymap.set('n', '<leader>sc', function()
-        builtin.find_files { cwd = '~/Documents/Code/Trellis/crm/force-app/main/default/classes/' }
+        builtin.find_files { cwd = '~/Work/crm/force-app/main/default/classes/' }
       end, { desc = '[S]earch Apex [C]lass Files' })
+      vim.keymap.set('n', '<leader>sl', function()
+        builtin.find_files { cwd = '~/Work/crm/force-app/main/default/lwc/' }
+      end, { desc = '[S]earch [L]ightning Components' })
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
@@ -618,7 +624,9 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        apex_ls = {},
+        apex_ls = {
+          filetypes = { 'apex' },
+        },
         pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -899,7 +907,25 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'apex', 'javascript', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'bash',
+        'apex',
+        'html',
+        'yaml',
+        'xml',
+        'css',
+        'javascript',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
