@@ -95,6 +95,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
         prompt_title = 'Live Grep in Open Files',
       }
     end, { desc = '[S]earch [/] in Open Files' })
+    vim.keymap.set('n', '<leader>sa', function()
+      builtin.find_files { cwd = vim.fn.getcwd() }
+    end, { desc = '[S]earch Current Working Directory' })
     vim.keymap.set('n', '<leader>sc', function()
       builtin.find_files { cwd = '~/Documents/Code/Trellis/crm/force-app/main/default/classes/' }
     end, { desc = '[S]earch Apex [C]lass Files' })
