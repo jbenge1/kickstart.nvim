@@ -226,6 +226,7 @@ require('lazy').setup({
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
+  { 'sunjon/shade.nvim' },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -441,7 +442,6 @@ require('lazy').setup({
       }
     end,
   },
-
   { -- Autoformat
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
