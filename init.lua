@@ -226,7 +226,21 @@ require('lazy').setup({
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
-  { 'sunjon/shade.nvim' },
+  -- { 'sunjon/shade.nvim' },
+  -- {
+  --   'sunjon/shade.nvim',
+  --   config = function()
+  --     require('shade').setup {
+  --       overlay_opacity = 50,
+  --       opacity_step = 1,
+  --       keys = {
+  --         brightness_up = '<C-Up>',
+  --         brightness_down = '<C-Down>',
+  --         toggle = '<Leader>s',
+  --       },
+  --     }
+  --   end,
+  -- },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -422,10 +436,22 @@ require('lazy').setup({
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
+      -- local ensure_installed = vim.tbl_keys(servers or {})
+      -- ensure_installed = vim.tbl_filter(function(tool)
+      --   return tool ~= 'apex_ls'
+      -- end, ensure_installed)
+      -- vim.list_extend(ensure_installed, {
+      --   'stylua', -- Used to format Lua code
+      -- })
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
+
+      -- Remove apex_ls since Mason package name doesn't match
+      ensure_installed = vim.tbl_filter(function(tool)
+        return tool ~= 'apex_ls'
+      end, ensure_installed)
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
@@ -477,13 +503,16 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
+        -- python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
-        apex = { 'prettierd', 'prettier', stop_after_first = true },
+        -- apex = { 'prettierd', 'prettier', stop_after_first = true },
+        apex = { 'lsp_format' },
+        python = { 'prettierd', 'prettier', stop_after_first = true },
+        go = { 'goimports', 'gofmt' },
       },
     },
   },
@@ -604,21 +633,29 @@ require('lazy').setup({
   --  end,
   --},
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-storm'
+  -- { -- You can easily change to a different colorscheme.
+  --   -- Change the name of the colorscheme plugin below, and then
+  --   -- change the command in the config to whatever the name of that colorscheme is.
+  --   --
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'folke/tokyonight.nvim',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     vim.cmd.colorscheme 'tokyonight-storm'
 
-      -- You can configure highlights by doing something like:
-      -- vim.cmd.hi 'Comment gui=none'
+  --     -- You can configure highlights by doing something like:
+  --     -- vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
+  {
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('nordic').load()
     end,
   },
 
