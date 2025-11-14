@@ -465,20 +465,23 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          -- Custom handler for apex_ls
+          apex_ls = function()
+            require('lspconfig').apex_ls.setup {
+              cmd = {
+                'java',
+                '-cp',
+                '/Users/justin/.local/share/nvim/mason/packages/apex-language-server/extension/dist/apex-jorje-lsp.jar',
+                '-Ddebug.internal.errors=true',
+                '-Ddebug.semantic.errors=false',
+                'apex.jorje.lsp.ApexLanguageServerLauncher',
+              },
+              capabilities = capabilities,
+              filetypes = { 'apex' },
+              root_dir = require('lspconfig').util.root_pattern 'sfdx-project.json',
+            }
+          end,
         },
-      }
-      require('lspconfig').apex_ls.setup {
-        cmd = {
-          'java',
-          '-cp',
-          '/Users/justin/.local/share/nvim/mason/packages/apex-language-server/extension/dist/apex-jorje-lsp.jar',
-          '-Ddebug.internal.errors=true',
-          '-Ddebug.semantic.errors=false',
-          'apex.jorje.lsp.ApexLanguageServerLauncher',
-        },
-        capabilities = capabilities,
-        filetypes = { 'apex' },
-        root_dir = require('lspconfig').util.root_pattern 'sfdx-project.json',
       }
     end,
   },
