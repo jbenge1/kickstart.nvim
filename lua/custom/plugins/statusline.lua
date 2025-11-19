@@ -1,4 +1,5 @@
 return {
+  -- enabled = false,
   {
     'tjdevries/express_line.nvim',
     config = function()
