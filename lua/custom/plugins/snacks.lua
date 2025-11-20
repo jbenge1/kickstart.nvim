@@ -23,9 +23,10 @@ return {
     dim = { enabled = true },
     terminal = { enabled = true },
     statuscolumn = { enabled = true }, -- might conflict with ufo/express_line
-    tyles = {
+    scratch = { enabled = true },
+    styler = {
       notification = {
-        -- wo = { wrap = true } -- Wrap notifications
+        wo = { wrap = true }, -- Wrap notifications
       },
     },
     -- Dashboard - up to you
