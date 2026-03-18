@@ -3,6 +3,9 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+-- Force zsh for terminal commands (nushell doesn't handle bash-isms)
+vim.o.shell = '/bin/zsh'
 vim.lsp.set_log_level 'ERROR'
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
@@ -585,6 +588,15 @@ require('lazy').setup({
           end,
         },
       }
+
+      -- SourceKit-LSP for Swift (not managed by Mason, ships with Xcode)
+      vim.lsp.config('sourcekit', {
+        cmd = { 'sourcekit-lsp' },
+        filetypes = { 'swift', 'objc', 'objcpp' },
+        root_markers = { 'Package.swift', '.git' },
+        capabilities = capabilities,
+      })
+      vim.lsp.enable('sourcekit')
     end,
   },
   { -- Autoformat
@@ -632,6 +644,7 @@ require('lazy').setup({
         apex = { 'lsp_format' },
         python = { 'prettierd', 'prettier', stop_after_first = true },
         go = { 'goimports', 'gofmt' },
+        swift = { 'swiftformat' },
       },
     },
   },

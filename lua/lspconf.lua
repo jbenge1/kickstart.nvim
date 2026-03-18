@@ -5,3 +5,10 @@ require('lspconfig').apex_ls.setup {
 }
 
 require('lspconfig').lwc_ls.setup {}
+
+require('lspconfig').sourcekit.setup {
+  cmd = {
+    '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp',
+  },
+  filetypes = { 'swift', 'objc', 'objcpp' },
+}
